@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        .qrcode {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .ads {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan to Connect Wi-Fi</h1>
+        <p>Use your phone to scan the QR code below to start the process.</p>
+        <div class="qrcode">
+            <canvas id="qrcode"></canvas>
+        </div>
+        <div id="ads" class="ads">
+            <!-- Google AdSense code will be placed here -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <p>Advertisement is loading... Please wait 10 seconds.</p>
+        </div>
+        <button id="connect-btn" disabled>Connect to Wi-Fi</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        const qrCodeCanvas = document.getElementById('qrcode');
+        const adsDiv = document.getElementById('ads');
+        const connectBtn = document.getElementById('connect-btn');
+
+        // Wi-Fi information
+        const wifiInfo = {
+            ssid: "YourWiFiSSID", // Replace with actual SSID
+            password: "YourWiFiPassword", // Replace with actual Password
+            encryption: "WPA" // WPA/WEP/nopass
+        };
+        const qrContent = `WIFI:S:${wifiInfo.ssid};T:${wifiInfo.encryption};P:${wifiInfo.password};H:;`;
+
+        // Generate QR code
+        QRCode.toCanvas(qrCodeCanvas, qrContent, { width: 200 }, function (error) {
+            if (error) console.error(error);
+        });
+
+        // Simulate QR code scan and show ads
+        qrCodeCanvas.onclick = () => {
+            adsDiv.style.display = "block";
+            setTimeout(() => {
+                adsDiv.style.display = "none";
+                connectBtn.disabled = false;
+            }, 10000); // Show ads for 10 seconds
+        };
+
+        connectBtn.onclick = () => {
+            alert("Connecting to Wi-Fi...");
+        };
+    </script>
+</body>
+</html>
