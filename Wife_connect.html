@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Panel - Wi-Fi Connection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #qrcode-container {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #ads {
+            display: none;
+            padding: 20px;
+            margin-top: 20px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wi-Fi Connection / Wi-Fi 连接</h1>
+        <p>Scan the provided QR code below to start the process. / 扫描以下二维码开始连接流程。</p>
+        
+        <div id="qrcode-container">
+            <canvas id="qrcode"></canvas>
+        </div>
+
+        <p id="scan-instructions">After scanning, follow the steps on your device. / 扫描后，根据设备上的指示操作。</p>
+
+        <div id="ads" class="hidden">
+            <!-- Google AdSense Code -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="YYYYYYYYYY"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <!-- Google AdSense Code Ends -->
+            <p>Advertisement - Please wait... / 广告中 - 请稍候...</p>
+        </div>
+
+        <button id="connect-btn" class="hidden">Connect to Wi-Fi / 连接到Wi-Fi</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script>
+        // Generate Wi-Fi QR code
+        const qrCodeCanvas = document.getElementById('qrcode');
+        const wifiInfo = {
+            ssid: "YourWiFiSSID", // Replace with actual Wi-Fi SSID
+            password: "YourWiFiPassword", // Replace with actual password
+            encryption: "WPA" // WPA/WEP/nopass
+        };
+        const qrContent = `WIFI:S:${wifiInfo.ssid};T:${wifiInfo.encryption};P:${wifiInfo.password};H:;`;
+
+        QRCode.toCanvas(qrCodeCanvas, qrContent, { width: 256, margin: 2 }, function (error) {
+            if (error) {
+                console.error(error);
+                alert("Failed to generate QR Code. Please refresh the page! / 二维码生成失败，请刷新页面！");
+            }
+        });
+
+        // Handle ad display and Wi-Fi connection button
+        const adsDiv = document.getElementById('ads');
+        const connectBtn = document.getElementById('connect-btn');
+        const scanInstructions = document.getElementById('scan-instructions');
+
+        qrCodeCanvas.onclick = function () {
+            // Simulate scanning process
+            scanInstructions.classList.add('hidden');
+            adsDiv.classList.remove('hidden');
+
+            // Show ads for 10-15 seconds, then reveal connect button
+            setTimeout(() => {
+                adsDiv.classList.add('hidden');
+                connectBtn.classList.remove('hidden');
+            }, 10000); // Display ads for 10 seconds
+        };
+
+        connectBtn.onclick = function () {
+            alert('Connecting to Wi-Fi... / 正在连接到Wi-Fi...');
+            // Here, implement auto Wi-Fi connection if supported by the device
+        };
+    </script>
+</body>
+</html>
